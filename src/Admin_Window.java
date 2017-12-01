@@ -56,11 +56,10 @@ public class Admin_Window extends JFrame{
 		  public void actionPerformed(ActionEvent e)
 		  {
 		    // display admin frame when the button is pressed
-			  if(MySQLAccess.checkDB()) {
+			  if(mysql.checkDB()) {
 				  System.out.println("the database exists");
 				  Admin_First.main(null);
-				  
-
+				
 			  }
 			  else {
 				 MySQLAccess.createDB();

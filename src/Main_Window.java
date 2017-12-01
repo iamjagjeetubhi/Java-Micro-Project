@@ -67,5 +67,13 @@ public class Main_Window {
 		JButton btnUser = new JButton("USER");
 		btnUser.setBounds(793, 176, 117, 25);
 		frame.getContentPane().add(btnUser);
+		btnUser.addActionListener(new ActionListener()
+		{
+		  public void actionPerformed(ActionEvent e)
+		  {
+		    // display admin frame when the button is pressed
+			  User_Window.main(null);
+		  }
+		});
 	}
 }

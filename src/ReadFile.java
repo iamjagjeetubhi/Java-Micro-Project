@@ -25,9 +25,11 @@ public class ReadFile {
 				String[] ar= sCurrentLine.split(",");
 				String last = ar[0];
 				String first = ar[1];
+				String group = ar[2];
 				System.out.println(first);
 				System.out.println(last);
-				MySQLAccess.InitDB(first,last);
+				System.out.println(group);
+				MySQLAccess.InitDB(first,last,group);
 				
 			}
 			Admin_Second.main(null);

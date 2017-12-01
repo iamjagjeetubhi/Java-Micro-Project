@@ -148,6 +148,7 @@ public class MySQLAccess{
 	      		"    `Password` varchar(250),\n" + 
 	      		"    `Prefered_Car_Name` varchar(250),\n" + 
 	      		"    `Logo` varchar(250),\n" + 
+	      		"    `Credit` varchar(250),\n" + 
 	      		"    `Score` varchar(250));";
 	      stmt.executeUpdate(sql);
 	      System.out.println("Table created successfully...");
@@ -181,7 +182,7 @@ public class MySQLAccess{
 	return false;
 	}//end main
   
-  public static boolean InitDB(String fName, String lName) {
+  public static boolean InitDB(String fName, String lName, String Group) {
 	   Connection conn = null;
 	   Statement stmt = null;
 
@@ -199,7 +200,7 @@ public class MySQLAccess{
 	      stmt = conn.createStatement();
 	      String sql_use =  "USE `DBProg32758`;";
 	      stmt.executeUpdate(sql_use);
-	      String sql = "INSERT INTO `Players`(`Last_Name`, `First_Name`) VALUES ('"+lName+"','"+fName+"');";
+	      String sql = "INSERT INTO `Players`(`Last_Name`, `First_Name`, `Group`) VALUES ('"+lName+"','"+fName+"','"+Group+"');";
 	      stmt.executeUpdate(sql);
 	      System.out.println("Value inserted successfully...");
 	      return true;
@@ -228,5 +229,191 @@ public class MySQLAccess{
 	   }//end try
 	   System.out.println("Goodbye!");
 	return false;
+	}//end main
+  
+  public static String CheckUser(String fName, String lName, String Group) {
+	   Connection conn = null;
+	   Statement stmt = null;
+	      String status=null;
+
+
+
+	   try{
+	      //STEP 2: Register JDBC driver
+	      Class.forName("com.mysql.jdbc.Driver");
+
+	      //STEP 3: Open a connection
+	     // System.out.println("Connecting to database...");
+	      conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+	      //STEP 4: Execute a query
+	      //System.out.println("Creating database...");
+	      stmt = conn.createStatement();
+	      String sql_use =  "USE `DBProg32758`;";
+	      stmt.executeUpdate(sql_use);
+	      String sql = "SELECT * FROM `Players` WHERE `Last_Name`='"+lName+"' AND `First_Name`='"+fName+"' AND `Group`='"+Group+"';";
+	      ResultSet rs = stmt.executeQuery(sql);
+	      while(rs.next()){
+	      String checklname=rs.getString(1);
+	      String checkfname=rs.getString(2);
+	      String checkgroup=rs.getString(3);
+	      System.out.println(checklname+checkfname+checkgroup);
+	      if(checklname.equals(lName) && checkfname.equals(fName) && checkgroup.equals(Group)){
+	          status="True";
+	      }
+	      else{
+	          status="False";
+	      }
+	      System.out.println(status);
+	      return status;
+	      
+	      }
+	   }catch(SQLException se){
+		      System.out.println("error"+se);
+
+	      //Handle errors for JDBC
+	   }catch(Exception e){
+	      //Handle errors for Class.forName
+		      System.out.println("error"+e);
+	   }finally{
+	      //finally block used to close resources
+	      try{
+	         if(stmt!=null)
+	            stmt.close();
+	      }catch(SQLException se2){
+		      System.out.println("error"+se2);
+
+	      }// nothing we can do
+	      try{
+	         if(conn!=null)
+	            conn.close();
+	      }catch(SQLException se){
+		      System.out.println("error"+se);
+
+	         se.printStackTrace();
+	      }//end finally try
+	   }//end try
+	   System.out.println("Goodbye!");
+	return status;
+	
+	}//end main
+  public static String CreateUser(String fName, String lName, String Group, String car,String credit,String score,String username,String password) {
+	   Connection conn = null;
+	   Statement stmt = null;
+	      String status=null;
+
+
+
+	   try{
+	      //STEP 2: Register JDBC driver
+	      Class.forName("com.mysql.jdbc.Driver");
+
+	      //STEP 3: Open a connection
+	     // System.out.println("Connecting to database...");
+	      conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+	      //STEP 4: Execute a query
+	      //System.out.println("Creating database...");
+	      stmt = conn.createStatement();
+	      String sql_use =  "USE `DBProg32758`;";
+	      stmt.executeQuery(sql_use);
+	      String sql = "UPDATE `Players` SET `Login`='"+username+"',`Password`='"+password+"',`Prefered_Car_Name`='"+car+"',`Credit`='"+credit+"',`Score`='"+score+"' WHERE `Last_Name`='"+lName+"' AND `First_Name`='"+fName+"' AND `Group`='"+Group+"';";
+	      stmt.executeUpdate(sql);
+	      User_Second_b.main(null);
+	      return status;
+	   }catch(SQLException se){
+		      System.out.println("error"+se);
+
+	      //Handle errors for JDBC
+	   }catch(Exception e){
+	      //Handle errors for Class.forName
+		      System.out.println("error"+e);
+	   }finally{
+	      //finally block used to close resources
+	      try{
+	         if(stmt!=null)
+	            stmt.close();
+	      }catch(SQLException se2){
+		      System.out.println("error"+se2);
+
+	      }// nothing we can do
+	      try{
+	         if(conn!=null)
+	            conn.close();
+	      }catch(SQLException se){
+		      System.out.println("error"+se);
+
+	         se.printStackTrace();
+	      }//end finally try
+	   }//end try
+	   System.out.println("Goodbye!");
+	return status;
+	
+	}//end main
+  public static String LoginUser(String username, String password) {
+	   Connection conn = null;
+	   Statement stmt = null;
+	      String status=null;
+
+
+
+	   try{
+	      //STEP 2: Register JDBC driver
+	      Class.forName("com.mysql.jdbc.Driver");
+
+	      //STEP 3: Open a connection
+	     // System.out.println("Connecting to database...");
+	      conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+	      //STEP 4: Execute a query
+	      //System.out.println("Creating database...");
+	      stmt = conn.createStatement();
+	      String sql_use =  "USE `DBProg32758`;";
+	      stmt.executeUpdate(sql_use);
+	      String sql = "SELECT `Login`,`Password` FROM `Players` WHERE `Login`='"+username+"' AND `Password`='"+password+"';";
+	      ResultSet rs = stmt.executeQuery(sql);
+	      while(rs.next()){
+	      String checkuname=rs.getString(1);
+	      String checkpass=rs.getString(2);
+
+	      System.out.println(checkuname+checkpass);
+	      if(checkuname.equals(username) && checkpass.equals(password)){
+	          status="True";
+	      }
+	      else{
+	          status="False";
+	      }
+	      System.out.println(status);
+	      return status;
+	      
+	      }
+	   }catch(SQLException se){
+		      System.out.println("error"+se);
+
+	      //Handle errors for JDBC
+	   }catch(Exception e){
+	      //Handle errors for Class.forName
+		      System.out.println("error"+e);
+	   }finally{
+	      //finally block used to close resources
+	      try{
+	         if(stmt!=null)
+	            stmt.close();
+	      }catch(SQLException se2){
+		      System.out.println("error"+se2);
+
+	      }// nothing we can do
+	      try{
+	         if(conn!=null)
+	            conn.close();
+	      }catch(SQLException se){
+		      System.out.println("error"+se);
+
+	         se.printStackTrace();
+	      }//end finally try
+	   }//end try
+	   System.out.println("Goodbye!");
+	return status;
+	
 	}//end main
 }//end JDBCExample
