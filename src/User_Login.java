@@ -16,6 +16,8 @@ public class User_Login extends JFrame {
 	private JPanel contentPane;
 	private JTextField textField;
 	private JPasswordField passwordField;
+	int totalAttempts= 0;
+
 
 	/**
 	 * Launch the application.
@@ -39,6 +41,7 @@ public class User_Login extends JFrame {
 	public User_Login() {
 		setTitle("CAR RACING GAME");
 
+		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -66,6 +69,7 @@ public class User_Login extends JFrame {
 		passwordField = new JPasswordField();
 		passwordField.setBounds(205, 87, 114, 19);
 		contentPane.add(passwordField);
+
 		btnLogin.addActionListener(new ActionListener()
 		{
 		  public void actionPerformed(ActionEvent e)
@@ -75,20 +79,30 @@ public class User_Login extends JFrame {
 				String password = new String(passwordField.getPassword());
 				
 				  if(MySQLAccess.LoginUser(username,password)=="True") {
-					   System.out.println("Logged In!!!");
+					  setVisible(false);
+					  System.out.println("Logged In!!!");
+					  Car.main(null);
 					  
 					   
 				  }
-				  else {
-					      User_First.main(null);
-					     
-					      
-						   System.out.println("Wrong Id pass");
-
-					      
+				  if(!(MySQLAccess.LoginUser(username,password)=="True")) {
+					  System.out.println(totalAttempts);
+					  
+					  totalAttempts++;
+					  if(totalAttempts>3) {
+						  User_First_b.main(null);
+					  }
+					  else {
+						  User_First.main(null);
+					  }
+					  
+					  
+					   
 				  }
+				 
 				  
-					 setVisible(false);
+				  
+					// setVisible(false);
 
 		  }
 		});

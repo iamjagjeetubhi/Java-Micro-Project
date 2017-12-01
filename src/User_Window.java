@@ -51,6 +51,7 @@ public class User_Window extends JFrame {
 		    
 			// display admin frame when the button is pressed
 			  User_Login.main(null);
+			 
 		  }
 		});
 		

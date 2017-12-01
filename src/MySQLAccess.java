@@ -377,16 +377,24 @@ public class MySQLAccess{
 	      String checkpass=rs.getString(2);
 
 	      System.out.println(checkuname+checkpass);
+
+	        
+
 	      if(checkuname.equals(username) && checkpass.equals(password)){
 	          status="True";
 	      }
+	     
 	      else{
-	          status="False";
+	          	          
+	    	  status="False";
+         	      	    
 	      }
+	      
 	      System.out.println(status);
 	      return status;
 	      
 	      }
+	        
 	   }catch(SQLException se){
 		      System.out.println("error"+se);
 
