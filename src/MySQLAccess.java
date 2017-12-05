@@ -9,6 +9,9 @@ public class MySQLAccess{
    //  Database credentials
    static final String USER = "root";
    static final String PASS = "a";
+   static String scores;
+   static String credits;
+   static String car;
    
   public static boolean checkDB() {
    Connection conn = null;
@@ -200,7 +203,7 @@ public class MySQLAccess{
 	      stmt = conn.createStatement();
 	      String sql_use =  "USE `DBProg32758`;";
 	      stmt.executeUpdate(sql_use);
-	      String sql = "INSERT INTO `Players`(`Last_Name`, `First_Name`, `Group`) VALUES ('"+lName+"','"+fName+"','"+Group+"');";
+	      String sql = "INSERT INTO `Players`(`Last_Name`, `First_Name`, `Group`, `Credit`, `Score`) VALUES ('"+lName+"','"+fName+"','"+Group+"','0','0');";
 	      stmt.executeUpdate(sql);
 	      System.out.println("Value inserted successfully...");
 	      return true;
@@ -370,13 +373,19 @@ public class MySQLAccess{
 	      stmt = conn.createStatement();
 	      String sql_use =  "USE `DBProg32758`;";
 	      stmt.executeUpdate(sql_use);
-	      String sql = "SELECT `Login`,`Password` FROM `Players` WHERE `Login`='"+username+"' AND `Password`='"+password+"';";
+	      String sql = "SELECT `Login`,`Password`,`Score`,`Credit`,`Prefered_Car_Name` FROM `Players` WHERE `Login`='"+username+"' AND `Password`='"+password+"';";
 	      ResultSet rs = stmt.executeQuery(sql);
 	      while(rs.next()){
 	      String checkuname=rs.getString(1);
 	      String checkpass=rs.getString(2);
+	      String userscores=rs.getString(3);
+	      String usercredits=rs.getString(4);
+	      String usercar=rs.getString(5);
 
-	      System.out.println(checkuname+checkpass);
+	      //System.out.println(checkuname+checkpass+userscores+usercredits+usercar);
+	      scores=userscores;
+	      credits=usercredits;
+	      car=usercar;
 
 	        
 
@@ -390,7 +399,6 @@ public class MySQLAccess{
          	      	    
 	      }
 	      
-	      System.out.println(status);
 	      return status;
 	      
 	      }
@@ -424,4 +432,13 @@ public class MySQLAccess{
 	return status;
 	
 	}//end main
+  public static String usercar() {
+	  return car;
+  }
+  public static String userscores() {
+	  return scores;
+  }
+  public static String usercredits() {
+	  return credits;
+  }
 }//end JDBCExample
